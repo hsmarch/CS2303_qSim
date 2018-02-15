@@ -1,20 +1,11 @@
 //
-// Created by Harrison March on 2/13/2018.
+// Created by Harrison March on 2/14/2018.
 //
 
-#include <cstdio>
-#include "Event.h"
 #include "CustomerEvent.h"
 
-
-CustomerEvent::CustomerEvent() {
+CustomerEvent::CustomerEvent(double _timestamp, double duration) : Event() {
+    timestamp = _timestamp;
+    length = duration;
 }
 
-void CustomerEvent::action() {
-    printf("Customer Event performed action at timestamp %i\n", delay);
-}
-
-CustomerEvent::CustomerEvent(double timestamp, double servicetime) {
-    setTimeStamp(timestamp);
-    setEventDelay(servicetime);
-}

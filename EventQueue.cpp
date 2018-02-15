@@ -2,29 +2,61 @@
 // Created by Harrison March on 2/14/2018.
 //
 
-#include <cstdio>
-#include <iostream>
 #include "EventQueue.h"
 
-EventQueue::EventQueue() = default;
+Event *EventQueue::removeHead() {
+    Event *h = head;
+    head = h->next;
+    return h;
+}
 
-void EventQueue::addToQueue(Event *e) {
-    std::cout << getHead()->getTimeStamp() << std::endl;
-    Event *cursor = getHead();
-    do {
+void EventQueue::add(Event *e) {
+    if (head == nullptr) {
+        head = e;
+        tail = nullptr;
+        head->next = tail;
+    } else {
+        e->next = head->next;
+        head->next = e;
+    }
 
-    } while ((cursor = cursor->getNextEvent()) != nullptr);
+}
+
+EventQueue::EventQueue() {
+    head = nullptr;
 }
 
 void EventQueue::printQueue() {
-    std::cout << getHead()->getTimeStamp() << std::endl;
-    Event *cursor = getHead();
+    Event *cursor = head;
+    cursor->print();
+    length++;
     do {
+        cursor = cursor->next;
         cursor->print();
-        cursor = cursor->getNextEvent();
-    } while (cursor != nullptr);
-    std::cout << "" << std::endl;
-
+        length++;
+    } while (cursor->next != nullptr);
 }
 
+void EventQueue::sortQueue() {
+    bool unsorted = true;
+    while (unsorted) {
+        unsorted = false;
+        Event *current = head;
+        Event *next = current->next;
+        while (next != nullptr) {
 
+            if (next->timestamp < current->timestamp) {
+                double cTime = current->timestamp;
+                double cLength = current->length;
+                current->timestamp = next->timestamp;
+                current->length = next->length;
+                next->timestamp = cTime;
+                next->length = cLength;
+                unsorted = true;
+            }
+            current = current->next;
+            next = current->next;
+
+        }
+    }
+}

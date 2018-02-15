@@ -6,15 +6,23 @@
 #define QSIM_HSMARCH_EVENTQUEUE_H
 
 
-#include "Queue.h"
+#include "Event.h"
 
-class EventQueue : public Queue {
+class EventQueue {
 public:
-    EventQueue();
+    Event *head;
+    Event *tail;
 
-    void addToQueue(Event *e);
+    Event *removeHead();
 
+    int length = 0;
+
+    void add(Event *e);
     void printQueue();
+
+    void sortQueue();
+
+    EventQueue();
 };
 
 

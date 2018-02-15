@@ -1,5 +1,5 @@
 //
-// Created by Harrison March on 2/13/2018.
+// Created by Harrison March on 2/14/2018.
 //
 
 #ifndef QSIM_HSMARCH_CUSTOMEREVENT_H
@@ -10,15 +10,7 @@
 
 class CustomerEvent : public Event {
 public:
-    CustomerEvent();
-
-    CustomerEvent(double timestamp, double servicetime);
-
-    void action() override;
-
-private:
-    int start;
-    int serviceTime;
+    CustomerEvent(double _timestamp, double duration);
 };
 
 

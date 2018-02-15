@@ -1,8 +1,8 @@
 #include <iostream>
 #include <ctime>
-#include "Queue.h"
-#include "EventQueue.h"
 #include "CustomerEvent.h"
+#include "EventQueue.h"
+#include "TellerEvent.h"
 
 // *** GLOBAL VARIABLES ***
 int NUM_TELLERS;
@@ -17,7 +17,6 @@ double randomTimeStamp();
 
 double randomServiceTime();
 
-
 /**
  * Main function for banking simulation written in C++11
  * @param argc
@@ -25,6 +24,7 @@ double randomServiceTime();
  * @return 0 on success, 1 on failure
  */
 int main(int argc, char *argv[]) {
+
     if (argc < 4 || argc > 5) {
         std::cerr << "Number of arguments supplied was invalid." << std::endl;
         std::cout << "Usage: ./qSim #customers #tellers simulationTime averageServiceTime <seed>" << std::endl;
@@ -41,16 +41,24 @@ int main(int argc, char *argv[]) {
             srand(time(NULL));
         }
     }
-    auto *eq = new EventQueue();
-    Event *e = new CustomerEvent(0, 0);
-    eq->setHead(e);
+    auto EQ = new EventQueue();
+    auto e = new CustomerEvent(randomTimeStamp(), randomServiceTime());
+    EQ->add(e);
     for (int c = 1; c < NUM_CUSTOMERS; c++) {
-        delete e;
-        Event *e;
-        e = new CustomerEvent(c, c);
-        eq->addToQueue(e);
+        e = new CustomerEvent(randomTimeStamp(), randomServiceTime());
+        EQ->add(e);
     }
-    eq->printQueue();
+    e = new TellerEvent();
+    EQ->add(e);
+    for (int c = 1; c < NUM_TELLERS; c++) {
+        e = new TellerEvent();
+        EQ->add(e);
+    }
+    EQ->sortQueue();
+    EQ->printQueue();
+    std::cout << "Queue Length of " << EQ->length << std::endl;
+
+
     return 0;
 }
 
